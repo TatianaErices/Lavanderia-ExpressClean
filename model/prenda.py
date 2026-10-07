@@ -1,5 +1,7 @@
 """Módulo que define la clase base Prenda para el sistema Lavanderia-ExpressClean."""
 
+from model.excepciones import EstadoInicialNoRegistradoError
+
 
 class Prenda:
     """Clase base que representa una prenda."""
@@ -35,12 +37,14 @@ class Prenda:
 
     def validar_estado(self) -> bool:
         """
-        Valida el estado inicial de la prenda según las reglas del UML.
-        Si self.__lavado_seco es True, retorna True solo si existe un estado inicial no vacío.
-        Si no es lavado en seco, retorna True.
+        Valida el estado inicial de la prenda.
+        Lanza EstadoInicialNoRegistradoError si lavado_seco es True y no existe un estado inicial registrado o está vacío.
+        En cualquier otro caso retorna True.
         """
-        if self.__lavado_seco:
-            return bool(self.__estado_inicial and str(self.__estado_inicial).strip())
+        if self.__lavado_seco and (not self.__estado_inicial or not str(self.__estado_inicial).strip()):
+            raise EstadoInicialNoRegistradoError(
+                "Debe registrar un estado inicial para prendas con servicio de lavado en seco."
+            )
         return True
 
     def calcular_costo(self):

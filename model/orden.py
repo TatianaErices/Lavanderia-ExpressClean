@@ -1,6 +1,7 @@
 """Módulo que define la clase Orden para el sistema Lavanderia-ExpressClean."""
 
 from model.detalle_orden import DetalleOrden
+from model.excepciones import OrdenNoPagadaError
 
 
 class Orden:
@@ -93,8 +94,9 @@ class Orden:
         """
         Gestiona la entrega de la orden comprobando que esté pagada.
 
-        :return: False si no está pagada; True si se puede entregar.
+        :return: True si está pagada.
+        :raises OrdenNoPagadaError: Si la orden no se encuentra pagada.
         """
         if not self.verificar_pago():
-            return False
+            raise OrdenNoPagadaError("La orden no puede entregarse porque no está pagada.")
         return True
