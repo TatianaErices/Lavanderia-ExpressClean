@@ -7,18 +7,30 @@ from model.excepciones import OrdenNoPagadaError
 class Orden:
     """Clase que representa una orden de lavandería."""
 
-    def __init__(self, num_orden: int, num_boleta: str = "", pagada: bool = False):
+    def __init__(self, num_orden: int, num_boleta: str, cliente, pagada: bool = False):
         """
         Inicializa una orden de servicio.
 
         :param num_orden: Identificador interno de la orden (int).
         :param num_boleta: Número de boleta de la orden (str).
+        :param cliente: Instancia de Cliente asociada (relación de agregación).
         :param pagada: Estado de pago de la orden (bool, por defecto False).
         """
         self.__num_orden = num_orden
         self.__num_boleta = num_boleta
+        self.__cliente = cliente
         self.__pagada = pagada
         self.__detalles = []
+
+    @property
+    def cliente(self):
+        """Obtiene el cliente asociado a la orden."""
+        return self.__cliente
+
+    @cliente.setter
+    def cliente(self, valor):
+        """Establece el cliente asociado a la orden."""
+        self.__cliente = valor
 
     @property
     def num_orden(self) -> int:
